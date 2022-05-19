@@ -68,6 +68,7 @@ public class UserService {
                 String formattedPassword = String.format("%s:%s", foundedUser.getPasswordHash(), foundedUser.getPasswordSalt());
 
                 if (!passwordEncoder.matches(userDetails.getPasswordHash(), formattedPassword)) {
+                    System.out.println(passwordEncoder.matches(userDetails.getPasswordHash(), formattedPassword));
                     HashMap<String, String> hashedPassword = encodePassword(userDetails.getPasswordHash());
                     foundedUser.setPasswordHash(hashedPassword.get("hash"));
                     foundedUser.setPasswordSalt(hashedPassword.get("salt"));

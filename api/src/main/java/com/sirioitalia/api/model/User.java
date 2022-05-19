@@ -1,28 +1,27 @@
 package com.sirioitalia.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sirioitalia.api.embeddable.Address;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.sql.Date;
-import java.time.LocalDate;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 @Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "users")
 public class User implements Serializable {
     @Getter
@@ -60,7 +59,6 @@ public class User implements Serializable {
     @Getter
     @Setter
     @Column(name = "\"birthDate\"")
-    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
 
     @Getter
@@ -77,11 +75,17 @@ public class User implements Serializable {
     @Getter
     @CreationTimestamp
     @Column(name = "\"registrationDate\"", updatable = false)
-    private LocalDate registrationDate;
+    private LocalDateTime registrationDate;
 
     @Getter
     @Setter
     @ManyToOne(optional = false)
     @JoinColumn(name = "\"roleId\"", nullable = false)
     private Role role;
+
+
+    @Getter
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @Fetch(FetchMode.JOIN)
+    private Set<Order> orders = new LinkedHashSet<>();
 }

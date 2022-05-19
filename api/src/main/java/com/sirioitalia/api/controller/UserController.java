@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -58,6 +58,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@Valid @RequestBody User userDetails) throws ResourceException {
+        System.out.println("hash: " + userDetails.getPasswordHash());
         User createdUser = userService.createUser(userDetails);
 
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
