@@ -24,5 +24,5 @@ public class Role {
     @Getter
     @Setter
     @Column(nullable = false)
-    private String name;
+    private String label;
 }

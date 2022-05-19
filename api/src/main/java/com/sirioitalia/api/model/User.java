@@ -1,8 +1,13 @@
 package com.sirioitalia.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sirioitalia.api.embeddable.Address;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 import javax.persistence.Entity;
@@ -10,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 
 @Builder
@@ -17,49 +24,64 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Getter
-    @Column(name = "name")
-    private String name;
+    @Setter
+    @Column(name = "\"firstName\"")
+    private String firstName;
 
     @Getter
     @Setter
-    @Column(name = "email")
+    @Column(name = "\"lastName\"")
+    private String lastName;
+
+    @Email
+    @Getter
+    @Setter
+    @Column(unique = true)
     private String email;
 
     @Getter
     @Setter
-    @Column(name = "password")
-    private String password;
+    @Column(name = "\"passwordHash\"")
+    private String passwordHash;
 
-    @Column(name = "birthdate")
-    private LocalDate birthdate;
+    @Getter
+    @Setter
+    @Column(name = "\"passwordSalt\"")
+    private String passwordSalt;
 
-    @Column(name = "phoneNumber")
+    @Past
+    @Getter
+    @Setter
+    @Column(name = "\"birthDate\"")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate birthDate;
+
+    @Getter
+    @Setter
+    @Column(name = "\"phoneNumber\"", unique = true)
     private String phoneNumber;
 
-    @Column(name = "address")
-    private String address;
+    @NotNull
+    @Getter
+    @Setter
+    @Embedded
+    private Address address;
 
-    @Column(name = "city")
-    private String city;
+    @Getter
+    @CreationTimestamp
+    @Column(name = "\"registrationDate\"", updatable = false)
+    private LocalDate registrationDate;
 
-    @Column(name = "postalCode")
-    private String postCode;
-
-    @Column(name = "Country")
-    private String country;
-
-    @Column(name = "createdAt")
-    private Date createdAt;
-
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @Getter
+    @Setter
+    @ManyToOne(optional = false)
     @JoinColumn(name = "\"roleId\"", nullable = false)
-    private Role roleId;
+    private Role role;
 }
