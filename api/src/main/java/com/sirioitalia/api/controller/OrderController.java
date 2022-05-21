@@ -1,5 +1,6 @@
 package com.sirioitalia.api.controller;
 
+import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Order;
 import com.sirioitalia.api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,11 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable Long id) throws ResourceException {
         orderService.deleteOrder(id);
+
+
+        return new ResponseEntity<>(HttpStatus.GONE);
     }
 
 

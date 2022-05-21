@@ -1,6 +1,5 @@
 package com.sirioitalia.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -17,6 +16,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @ToString
 @Entity
+@Data
 @Table(name = "items")
 public class Item {
 
@@ -40,7 +40,7 @@ public class Item {
 
     @Getter
     @Setter
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private Collection<Image> images = new ArrayList<>();
 
@@ -50,7 +50,6 @@ public class Item {
     @ManyToOne(optional = false)
     @JoinColumn(name = "\"furnitureId\"", nullable = false)
     @Fetch(FetchMode.JOIN)
-    @JsonIgnore
     private Furniture furniture;
 
     @Getter
@@ -60,4 +59,8 @@ public class Item {
     @JoinColumn(name = "\"colorId\"", nullable = false)
     @Fetch(FetchMode.JOIN)
     private Color color;
+
+    @Getter
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Collection<Rating> ratings = new ArrayList<>();
 }

@@ -6,7 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Positive;
 
 @Builder
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class OrderLine {
     @Getter
     private OrderLinePK id = new OrderLinePK();
 
-    @PositiveOrZero
+    @Positive
     @Getter
     @Setter
     @Column(nullable = false)

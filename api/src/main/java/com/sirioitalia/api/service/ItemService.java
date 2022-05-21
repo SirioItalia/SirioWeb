@@ -3,6 +3,7 @@ package com.sirioitalia.api.service;
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Image;
 import com.sirioitalia.api.model.Item;
+import com.sirioitalia.api.projection.ItemProjection;
 import com.sirioitalia.api.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class ItemService {
     }
 
 
-    public Iterable<Item> getItems() {
-        return itemRepository.findAll();
+    public Iterable<ItemProjection> getItems() {
+        return itemRepository.findBy();
     }
 
 

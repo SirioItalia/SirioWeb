@@ -1,6 +1,5 @@
 package com.sirioitalia.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -40,7 +39,6 @@ public class Image {
     @ManyToOne(optional = false)
     @JoinColumn(name = "\"itemId\"", nullable = false, updatable = false)
     @Fetch(FetchMode.SELECT)
-    @JsonIgnore
     private Item item;
 
 }

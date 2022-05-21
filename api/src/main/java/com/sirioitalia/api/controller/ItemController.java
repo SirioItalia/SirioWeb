@@ -2,6 +2,7 @@ package com.sirioitalia.api.controller;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Item;
+import com.sirioitalia.api.projection.ItemProjection;
 import com.sirioitalia.api.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public Iterable<Item> getItems() {
+    public Iterable<ItemProjection> getItems() {
         return itemService.getItems();
     }
 
@@ -33,6 +34,7 @@ public class ItemController {
 
         return new ResponseEntity<>(item, HttpStatus.FOUND);
     }
+
 
     @PostMapping
     @Transactional
