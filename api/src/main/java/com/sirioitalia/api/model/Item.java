@@ -2,7 +2,6 @@ package com.sirioitalia.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -10,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,15 +17,13 @@ import java.util.Collection;
 @NoArgsConstructor
 @ToString
 @Entity
-@DynamicUpdate
 @Table(name = "items")
-public class Item implements Serializable{
+public class Item {
 
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-
 
     @Getter
     @Setter

@@ -1,8 +1,8 @@
 package com.sirioitalia.api.repository;
 
+import com.sirioitalia.api.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import com.sirioitalia.api.model.User;
 
 
 @Repository

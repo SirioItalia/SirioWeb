@@ -6,7 +6,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-
 public class PBKDF2PasswordEncoder implements PasswordEncoder {
 
     @Override

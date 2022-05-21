@@ -3,8 +3,6 @@ package com.sirioitalia.api.service;
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Category;
 import com.sirioitalia.api.repository.CategoryRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,17 +12,10 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-    private static final Logger logger = LoggerFactory.getLogger(CategoryService.class);
-    private CategoryRepository categoryRepository;
-
-    public CategoryService() {
-        super();
-    }
-
+    private final CategoryRepository categoryRepository;
 
     @Autowired
     public CategoryService(CategoryRepository categoryRepository) {
-        super();
         this.categoryRepository = categoryRepository;
     }
 

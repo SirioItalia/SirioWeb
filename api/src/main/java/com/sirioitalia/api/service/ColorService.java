@@ -12,16 +12,10 @@ import java.util.List;
 
 @Service
 public class ColorService {
-    private ColorRepository colorRepository;
-
-    public ColorService() {
-        super();
-    }
-
+    private final ColorRepository colorRepository;
 
     @Autowired
     public ColorService(ColorRepository colorRepository) {
-        super();
         this.colorRepository = colorRepository;
     }
 
@@ -31,10 +25,8 @@ public class ColorService {
     }
 
     public Color getColorById(Long colorId) throws ResourceException {
-        Color color = colorRepository.findById(colorId)
+        return colorRepository.findById(colorId)
                 .orElseThrow(() -> new ResourceException("404", "Color not found", HttpStatus.NOT_FOUND));
-
-        return color;
     }
 
     @Transactional

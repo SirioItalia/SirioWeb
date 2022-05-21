@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "api/v1/billings")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -24,7 +24,7 @@ public class OrderController {
         return orderService.getOrders();
     }
 
-    @GetMapping(path = "/orders/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Order foundedOrder = orderService.getOrderById(id);
 
@@ -32,7 +32,7 @@ public class OrderController {
         return new ResponseEntity<>(foundedOrder, HttpStatus.FOUND);
     }
 
-    @PostMapping(path = "/orders")
+    @PostMapping
     public ResponseEntity<Order> registerNewBilling(@Valid @RequestBody Order orderDetails) throws IllegalStateException {
         Order createdOrder = orderService.createOrder(orderDetails);
 
@@ -40,7 +40,7 @@ public class OrderController {
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/orders/{id}")
+    @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
     }

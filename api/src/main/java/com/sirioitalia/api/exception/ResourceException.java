@@ -1,7 +1,6 @@
 package com.sirioitalia.api.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class ResourceException extends RuntimeException {
 
@@ -18,6 +17,7 @@ public class ResourceException extends RuntimeException {
         super(message);
         this.resourceId = resourceId;
     }
+
     public ResourceException(Long resourceId, String errorCode, String message) {
         super(message);
         this.resourceId = resourceId;

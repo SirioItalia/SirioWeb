@@ -84,7 +84,6 @@ public class User implements Serializable {
     private Role role;
 
 
-    @Getter
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     private Set<Order> orders = new LinkedHashSet<>();

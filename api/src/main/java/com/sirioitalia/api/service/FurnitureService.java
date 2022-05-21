@@ -4,45 +4,32 @@ import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Furniture;
 import com.sirioitalia.api.model.Item;
 import com.sirioitalia.api.repository.FurnitureRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 public class FurnitureService {
-    private static final Logger logger = LoggerFactory.getLogger(FurnitureService.class);
-    private FurnitureRepository furnitureRepository;
-    private ItemService itemService;
-
-    public FurnitureService() {
-        super();
-    }
-
+    private final FurnitureRepository furnitureRepository;
+    private final ItemService itemService;
 
     @Autowired
     public FurnitureService(FurnitureRepository furnitureRepository, ItemService itemService) {
         super();
-
         this.furnitureRepository = furnitureRepository;
         this.itemService = itemService;
     }
 
 
-    public List<Furniture> getFurnitures() {
-        return (List<Furniture>) furnitureRepository.findAll();
+    public Iterable<Furniture> getFurnitures() {
+        return furnitureRepository.findAll();
     }
 
 
     public Furniture getFurnitureById(Long furnitureId) throws ResourceException {
-        Furniture foundedFurniture = furnitureRepository.findById(furnitureId)
+        return furnitureRepository.findById(furnitureId)
                 .orElseThrow(() -> new ResourceException("404", "Furniture not found", HttpStatus.NOT_FOUND));
-
-        return foundedFurniture;
     }
 
 
@@ -51,8 +38,8 @@ public class FurnitureService {
         try {
             Furniture addedFurniture = furnitureRepository.save(furnitureDetails);
 
-            for (Item itemToAdd:
-                 furnitureDetails.getItems()) {
+            for (Item itemToAdd :
+                    furnitureDetails.getItems()) {
                 itemToAdd.setFurniture(addedFurniture);
                 itemService.createItem(itemToAdd);
             }
@@ -104,5 +91,6 @@ public class FurnitureService {
 
         furnitureRepository.delete(furnitureToDelete);
     }
+
 
 }

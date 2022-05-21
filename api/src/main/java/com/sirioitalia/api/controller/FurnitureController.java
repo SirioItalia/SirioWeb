@@ -9,43 +9,46 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/furnitures")
 public class FurnitureController {
-    @Autowired
-    private FurnitureService furnitureService;
+    private final FurnitureService furnitureService;
 
-    @GetMapping("/furnitures")
-    public List<Furniture> getFurnitures() {
+    @Autowired
+    public FurnitureController(FurnitureService furnitureService) {
+        this.furnitureService = furnitureService;
+    }
+
+    @GetMapping
+    public Iterable<Furniture> getFurnitures() {
         return furnitureService.getFurnitures();
     }
 
-    @GetMapping("/furnitures/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Furniture> getFurnitureById(@PathVariable Long id) throws ResourceException {
         Furniture foundedFurniture = furnitureService.getFurnitureById(id);
 
         return new ResponseEntity<>(foundedFurniture, HttpStatus.FOUND);
     }
 
-    @PostMapping("/furnitures")
+    @PostMapping
     public ResponseEntity<Furniture> createFurniture(@Valid @RequestBody Furniture furnitureDetails)
-        throws ResourceException {
+            throws ResourceException {
         Furniture createdFurniture = furnitureService.createFurniture(furnitureDetails);
 
         return new ResponseEntity<>(createdFurniture, HttpStatus.CREATED);
     }
 
-    @PutMapping("/furnitures/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Furniture> updateFurniture(@PathVariable Long id, @RequestBody Furniture furnitureDetails)
-        throws ResourceException {
+            throws ResourceException {
         Furniture updatedFurniture = furnitureService.updateFurniture(id, furnitureDetails);
 
         return new ResponseEntity<>(updatedFurniture, HttpStatus.OK);
     }
 
-    @DeleteMapping("/furnitures/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteFurniture(@PathVariable Long id) throws ResourceException {
         furnitureService.deleteFurniture(id);
 

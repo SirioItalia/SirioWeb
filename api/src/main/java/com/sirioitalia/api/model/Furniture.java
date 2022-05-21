@@ -2,12 +2,14 @@ package com.sirioitalia.api.model;
 
 import com.sirioitalia.api.embeddable.Dimension;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +20,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table(name = "furnitures")
-public class Furniture implements Serializable{
+public class Furniture implements Serializable {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)

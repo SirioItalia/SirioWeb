@@ -1,7 +1,5 @@
 package com.sirioitalia.api.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,10 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Builder
 @Entity
@@ -23,7 +17,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Table(name = "colors")
-public class Color  implements Serializable {
+public class Color implements Serializable {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)

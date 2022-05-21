@@ -12,51 +12,46 @@ import java.util.List;
 
 @Service
 public class ImageService {
-    private ImageRepository imageRepository;
-
-    public ImageService() {
-        super();
-    }
+    private final ImageRepository imageRepository;
 
     @Autowired
     public ImageService(ImageRepository imageRepository) {
-        super();
         this.imageRepository = imageRepository;
     }
 
 
-    public List<Image> getImages() throws ResourceException {
-        return (List<Image>) imageRepository.getImages();
+    public Iterable<Image> getImages() throws ResourceException {
+
+        return imageRepository.getImages();
     }
 
 
     public Image getImageById(Long imageId) throws ResourceException {
-        Image imageFound = imageRepository.findById(imageId)
-                .orElseThrow(() -> new ResourceException("404", "Image not found", HttpStatus.NOT_FOUND));
 
-        return imageFound;
+        return imageRepository.findById(imageId)
+                .orElseThrow(() -> new ResourceException("404", "Image not found", HttpStatus.NOT_FOUND));
     }
 
 
     @Transactional
     public Image createImage(Image imageDetails) throws ResourceException {
         try {
+
             return imageRepository.save(imageDetails);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.CONFLICT);
         }
     }
 
 
     @Transactional
-    public List<Image> createImages(List<Image> imagesDetails) throws ResourceException {
+    public Iterable<Image> createImages(List<Image> imagesDetails) throws ResourceException {
         try {
-            return (List<Image>) imageRepository.saveAll(imagesDetails);
-        } catch(Exception e) {
+            return imageRepository.saveAll(imagesDetails);
+        } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.CONFLICT);
         }
     }
-
 
 
     @Transactional

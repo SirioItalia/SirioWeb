@@ -37,7 +37,6 @@ public class Address {
     private String streetNumber;
 
 
-
     @NotNull
     @NotBlank(message = "City field cannot be blank")
     @NotEmpty(message = "City field cannot be empty")

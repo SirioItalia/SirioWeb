@@ -1,5 +1,6 @@
 package com.sirioitalia.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sirioitalia.api.embeddable.OrderLinePK;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -17,7 +18,8 @@ import javax.validation.constraints.PositiveOrZero;
 public class OrderLine {
 
     @EmbeddedId
-    private OrderLinePK id;
+    @Getter
+    private OrderLinePK id = new OrderLinePK();
 
     @PositiveOrZero
     @Getter
@@ -25,14 +27,18 @@ public class OrderLine {
     @Column(nullable = false)
     private Long quantity;
 
+    @Getter
+    @Setter
     @ManyToOne
     @MapsId("itemId")
     @JoinColumn(name = "\"itemId\"")
     private Item item;
 
     @Getter
+    @Setter
     @ManyToOne
     @MapsId("orderId")
-    @JoinColumn(name = "\"orderId\"")
+    @JsonIgnore
+    @JoinColumn(name = "\"orderId\"", nullable = false, insertable = false, updatable = false)
     private Order order;
 }

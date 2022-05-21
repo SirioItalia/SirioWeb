@@ -3,7 +3,6 @@ package com.sirioitalia.api.util;
 import com.sirioitalia.api.configuration.SecurityConfiguration;
 import com.sirioitalia.api.exception.CannotPerformOperationException;
 import com.sirioitalia.api.exception.InvalidHashException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -14,7 +13,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
-import java.util.HashMap;
 
 public class PasswordHash {
     private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
