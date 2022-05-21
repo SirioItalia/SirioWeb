@@ -2,6 +2,7 @@ package com.sirioitalia.api.service;
 
 import com.sirioitalia.api.model.Order;
 import com.sirioitalia.api.model.OrderLine;
+import com.sirioitalia.api.projection.OrderProjection;
 import com.sirioitalia.api.repository.OrderRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -25,14 +26,14 @@ public class OrderService {
     }
 
 
-    public Iterable<Order> getOrders() {
-        return orderRepository.findAll();
+    public Iterable<OrderProjection> getOrders() {
+        return orderRepository.findBy();
     }
 
-    public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
+    public OrderProjection getOrderById(Long orderId) {
+        return orderRepository.findProjectionById(orderId)
                 .orElseThrow(() -> new IllegalStateException(
-                        "order with id " + orderId + " does not exists"));
+                        "order does not exists"));
     }
 
     @Transactional

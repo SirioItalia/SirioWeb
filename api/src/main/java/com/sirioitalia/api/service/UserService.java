@@ -2,6 +2,7 @@ package com.sirioitalia.api.service;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.User;
+import com.sirioitalia.api.projection.UserProjection;
 import com.sirioitalia.api.repository.UserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.List;
 
 @Data
 @Service
@@ -26,15 +26,15 @@ public class UserService {
     }
 
 
-    public User getUserById(Long itemId) throws ResourceException {
-        User user = userRepository.findById(itemId)
+    public UserProjection.Full getUserById(Long itemId) throws ResourceException {
+        UserProjection.Full user = userRepository.findProjectionById(itemId)
                 .orElseThrow(() -> new ResourceException("FindUserFailed", HttpStatus.NOT_FOUND.getReasonPhrase(), HttpStatus.NOT_FOUND));
 
         return user;
     }
 
-    public List<User> getUsers() {
-        return (List<User>) userRepository.findAll();
+    public Iterable<UserProjection.Full> getUsers() {
+        return userRepository.findBy();
     }
 
     @Transactional

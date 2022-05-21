@@ -2,6 +2,7 @@ package com.sirioitalia.api.controller;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Order;
+import com.sirioitalia.api.projection.OrderProjection;
 import com.sirioitalia.api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,13 +22,13 @@ public class OrderController {
     }
 
     @GetMapping
-    public Iterable<Order> getOrders() {
+    public Iterable<OrderProjection> getOrders() {
         return orderService.getOrders();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Order foundedOrder = orderService.getOrderById(id);
+    public ResponseEntity<OrderProjection> getOrderById(@PathVariable Long id) {
+        OrderProjection foundedOrder = orderService.getOrderById(id);
 
 
         return new ResponseEntity<>(foundedOrder, HttpStatus.FOUND);

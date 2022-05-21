@@ -2,6 +2,7 @@ package com.sirioitalia.api.controller;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Furniture;
+import com.sirioitalia.api.projection.FurnitureProjection;
 import com.sirioitalia.api.service.FurnitureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,21 +22,21 @@ public class FurnitureController {
     }
 
     @GetMapping
-    public Iterable<Furniture> getFurnitures() {
+    public Iterable<FurnitureProjection> getFurnitures() {
         return furnitureService.getFurnitures();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Furniture> getFurnitureById(@PathVariable Long id) throws ResourceException {
-        Furniture foundedFurniture = furnitureService.getFurnitureById(id);
+    public ResponseEntity<FurnitureProjection> getFurnitureById(@PathVariable Long id) throws ResourceException {
+        FurnitureProjection foundedFurniture = furnitureService.getFurnitureById(id);
 
         return new ResponseEntity<>(foundedFurniture, HttpStatus.FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<Furniture> createFurniture(@Valid @RequestBody Furniture furnitureDetails)
+    public ResponseEntity<FurnitureProjection> createFurniture(@Valid @RequestBody Furniture furnitureDetails)
             throws ResourceException {
-        Furniture createdFurniture = furnitureService.createFurniture(furnitureDetails);
+        FurnitureProjection createdFurniture = furnitureService.createFurniture(furnitureDetails);
 
         return new ResponseEntity<>(createdFurniture, HttpStatus.CREATED);
     }

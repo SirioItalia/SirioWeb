@@ -24,19 +24,19 @@ public class ItemService {
     }
 
 
-    public Iterable<ItemProjection> getItems() {
+    public Iterable<ItemProjection.Full> getItems() {
         return itemRepository.findBy();
     }
 
 
-    public Item getItemById(Long id) throws ResourceException {
+    public ItemProjection.Full getItemById(Long id) throws ResourceException {
 
-        return itemRepository.findById(id)
+        return itemRepository.findProjectionById(id)
                 .orElseThrow(() -> new ResourceException("404", "Item Not Found"));
     }
 
 
-    public Item createItem(Item item) throws ResourceException {
+    public ItemProjection.Full createItem(Item item) throws ResourceException {
         try {
             Item createdItem = itemRepository.save(item);
 
@@ -50,7 +50,7 @@ public class ItemService {
             }
 
 
-            return createdItem;
+            return (ItemProjection.Full) createdItem;
         } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

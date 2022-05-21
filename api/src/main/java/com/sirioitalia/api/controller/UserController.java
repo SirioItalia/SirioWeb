@@ -3,6 +3,7 @@ package com.sirioitalia.api.controller;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.User;
+import com.sirioitalia.api.projection.UserProjection;
 import com.sirioitalia.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -26,13 +26,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
+    public Iterable<UserProjection.Full> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) throws ResourceException {
-        User foundedUser = userService.getUserById(id);
+    public ResponseEntity<UserProjection.Full> getUserById(@PathVariable Long id) throws ResourceException {
+        UserProjection.Full foundedUser = userService.getUserById(id);
 
 
         return new ResponseEntity<>(foundedUser, HttpStatus.FOUND);

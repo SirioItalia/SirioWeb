@@ -23,7 +23,7 @@ public class Item {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    private Long id;
 
     @Getter
     @Setter

@@ -3,6 +3,7 @@ package com.sirioitalia.api.service;
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Furniture;
 import com.sirioitalia.api.model.Item;
+import com.sirioitalia.api.projection.FurnitureProjection;
 import com.sirioitalia.api.repository.FurnitureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,19 +23,19 @@ public class FurnitureService {
     }
 
 
-    public Iterable<Furniture> getFurnitures() {
-        return furnitureRepository.findAll();
+    public Iterable<FurnitureProjection> getFurnitures() {
+        return furnitureRepository.findBy();
     }
 
 
-    public Furniture getFurnitureById(Long furnitureId) throws ResourceException {
-        return furnitureRepository.findById(furnitureId)
+    public FurnitureProjection getFurnitureById(Long furnitureId) throws ResourceException {
+        return furnitureRepository.findProjectionById(furnitureId)
                 .orElseThrow(() -> new ResourceException("404", "Furniture not found", HttpStatus.NOT_FOUND));
     }
 
 
     @Transactional
-    public Furniture createFurniture(Furniture furnitureDetails) throws ResourceException {
+    public FurnitureProjection createFurniture(Furniture furnitureDetails) throws ResourceException {
         try {
             Furniture addedFurniture = furnitureRepository.save(furnitureDetails);
 
@@ -44,7 +45,7 @@ public class FurnitureService {
                 itemService.createItem(itemToAdd);
             }
 
-            return addedFurniture;
+            return (FurnitureProjection) addedFurniture;
         } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.CONFLICT);
         }

@@ -23,13 +23,13 @@ public class ItemController {
     }
 
     @GetMapping
-    public Iterable<ItemProjection> getItems() {
+    public Iterable<ItemProjection.Full> getItems() {
         return itemService.getItems();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Item> getItemById(@PathVariable Long id) throws ResourceException {
-        Item item = itemService.getItemById(id);
+    public ResponseEntity<ItemProjection.Full> getItemById(@PathVariable Long id) throws ResourceException {
+        ItemProjection.Full item = itemService.getItemById(id);
 
 
         return new ResponseEntity<>(item, HttpStatus.FOUND);
@@ -38,8 +38,8 @@ public class ItemController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) throws ResourceException {
-        Item createdItem = itemService.createItem(item);
+    public ResponseEntity<ItemProjection.Full> createItem(@Valid @RequestBody Item item) throws ResourceException {
+        ItemProjection.Full createdItem = itemService.createItem(item);
 
 
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);

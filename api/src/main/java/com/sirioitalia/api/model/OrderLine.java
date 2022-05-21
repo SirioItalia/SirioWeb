@@ -25,7 +25,7 @@ public class OrderLine {
     @Getter
     @Setter
     @Column(nullable = false)
-    private Long quantity;
+    private Integer quantity;
 
     @Getter
     @Setter
