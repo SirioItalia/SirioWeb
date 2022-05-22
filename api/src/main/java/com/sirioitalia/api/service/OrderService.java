@@ -1,5 +1,6 @@
 package com.sirioitalia.api.service;
 
+import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Order;
 import com.sirioitalia.api.model.OrderLine;
 import com.sirioitalia.api.projection.OrderProjection;
@@ -30,14 +31,14 @@ public class OrderService {
         return orderRepository.findBy();
     }
 
-    public OrderProjection getOrderById(Long orderId) {
+    public OrderProjection getOrderById(Long orderId) throws ResourceException {
         return orderRepository.findProjectionById(orderId)
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new ResourceException(
                         "order does not exists"));
     }
 
     @Transactional
-    public Order createOrder(Order orderDetails) throws IllegalStateException {
+    public OrderProjection createOrder(Order orderDetails) throws IllegalStateException {
         try {
             orderDetails.setOrderReference(formatOrderReference(orderDetails));
             Order createdOrder = orderRepository.save(orderDetails);
@@ -48,7 +49,7 @@ public class OrderService {
                 orderLineService.createOrderLine(orderLine);
             }
 
-            return createdOrder;
+            return (OrderProjection) createdOrder;
         } catch (Exception ex) {
             throw new IllegalStateException(ex);
         }
@@ -59,7 +60,7 @@ public class OrderService {
         try {
             Order orderToDelete = orderRepository.findById(orderId)
                     .orElseThrow(() -> new IllegalStateException(
-                            "billing with id " + orderId + " does not exists"));
+                            "Order does not exists"));
 
 
             orderRepository.delete(orderToDelete);

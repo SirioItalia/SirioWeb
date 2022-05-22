@@ -35,8 +35,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> registerNewBilling(@Valid @RequestBody Order orderDetails) throws IllegalStateException {
-        Order createdOrder = orderService.createOrder(orderDetails);
+    public ResponseEntity<OrderProjection> registerNewBilling(@Valid @RequestBody Order orderDetails) throws IllegalStateException {
+        OrderProjection createdOrder = orderService.createOrder(orderDetails);
 
 
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);

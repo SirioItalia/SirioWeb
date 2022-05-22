@@ -1,7 +1,6 @@
 package com.sirioitalia.api.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sirioitalia.api.embeddable.RatingPK;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,7 +47,6 @@ public class Rating {
 
     @Getter
     @Setter
-    @JsonIgnore
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "\"userId\"")

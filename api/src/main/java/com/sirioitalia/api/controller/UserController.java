@@ -3,7 +3,9 @@ package com.sirioitalia.api.controller;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.User;
+import com.sirioitalia.api.projection.CartProjection;
 import com.sirioitalia.api.projection.UserProjection;
+import com.sirioitalia.api.service.CartService;
 import com.sirioitalia.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,17 +19,24 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final CartService cartService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, CartService cartService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.cartService = cartService;
     }
 
     @GetMapping
     public Iterable<UserProjection.Full> getUsers() {
         return userService.getUsers();
+    }
+
+    @GetMapping("/{id}/carts")
+    public Iterable<CartProjection> getItemsInUserCart(@PathVariable Long id) {
+        return cartService.getItemsInCartByUserId(id);
     }
 
     @GetMapping("/{id}")
@@ -39,8 +48,16 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) throws ResourceException {
         userService.deleteUser(id);
+
+
+        return new ResponseEntity<>(HttpStatus.GONE);
+    }
+
+    @DeleteMapping("/{id}/carts")
+    public ResponseEntity<HttpStatus> deleteItemsInUserCart(@PathVariable Long id) throws ResourceException {
+        cartService.deleteAllCartByUserId(id);
 
 
         return new ResponseEntity<>(HttpStatus.GONE);

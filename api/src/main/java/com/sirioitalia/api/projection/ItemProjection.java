@@ -16,6 +16,18 @@ public interface ItemProjection {
         @Value("#{target.getFurniture().getId()}")
         String getFurniture();
 
+        @JsonProperty("label")
+        @Value("#{target.getFurniture().getLabel()}")
+        String getLabel();
+
+        @JsonProperty("description")
+        @Value("#{target.getFurniture().getDescription()}")
+        String getDescription();
+
+        @JsonProperty("category")
+        @Value("#{target.getFurniture().getCategory().getLabel()}")
+        String getCategory();
+
     }
 
     interface Full {

@@ -7,9 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-
 @Embeddable
-public class OrderLinePK implements Serializable {
+public class CartPK implements Serializable {
+    private static final long serialVersionUID = -3201792159113087356L;
     @Getter
     @Setter
     @Column(name = "\"itemId\"")
@@ -17,6 +17,6 @@ public class OrderLinePK implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "\"orderId\"")
-    private Long orderId;
+    @Column(name = "\"userId\"")
+    private Long userId;
 }
