@@ -3,9 +3,12 @@ package com.sirioitalia.api.service;
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Furniture;
 import com.sirioitalia.api.model.Item;
+import com.sirioitalia.api.projection.CartProjection;
 import com.sirioitalia.api.projection.FurnitureProjection;
 import com.sirioitalia.api.repository.FurnitureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FurnitureService {
     private final FurnitureRepository furnitureRepository;
     private final ItemService itemService;
+    ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 
     @Autowired
     public FurnitureService(FurnitureRepository furnitureRepository, ItemService itemService) {
@@ -45,7 +49,7 @@ public class FurnitureService {
                 itemService.createItem(itemToAdd);
             }
 
-            return (FurnitureProjection) addedFurniture;
+            return projectionFactory.createProjection(FurnitureProjection.class, addedFurniture);
         } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.CONFLICT);
         }

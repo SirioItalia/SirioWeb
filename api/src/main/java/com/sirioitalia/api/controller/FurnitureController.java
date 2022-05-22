@@ -1,7 +1,9 @@
 package com.sirioitalia.api.controller;
 
 import com.sirioitalia.api.exception.ResourceException;
+import com.sirioitalia.api.model.Cart;
 import com.sirioitalia.api.model.Furniture;
+import com.sirioitalia.api.projection.CartProjection;
 import com.sirioitalia.api.projection.FurnitureProjection;
 import com.sirioitalia.api.service.FurnitureService;
 import org.springframework.beans.factory.annotation.Autowired;
