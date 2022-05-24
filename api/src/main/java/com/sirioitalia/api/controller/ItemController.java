@@ -38,8 +38,8 @@ public class ItemController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ItemProjection.Full> createItem(@Valid @RequestBody Item item) throws ResourceException {
-        ItemProjection.Full createdItem = itemService.createItem(item);
+    public ResponseEntity<ItemProjection> createItem(@Valid @RequestBody Item item) throws ResourceException {
+        ItemProjection createdItem = itemService.createItem(item);
 
 
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);

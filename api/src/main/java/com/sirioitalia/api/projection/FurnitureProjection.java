@@ -16,5 +16,7 @@ public interface FurnitureProjection {
 
     Double getWeight();
 
+    Double getPrice();
+
     ItemProjection.Full getItems();
 }

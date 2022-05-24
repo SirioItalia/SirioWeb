@@ -58,7 +58,7 @@ public class User implements Serializable {
     @Past
     @Getter
     @Setter
-    @Column(name = "\"birthDate\"")
+    @Column(name = "\"birthdate\"")
     private LocalDate birthDate;
 
     @Getter
