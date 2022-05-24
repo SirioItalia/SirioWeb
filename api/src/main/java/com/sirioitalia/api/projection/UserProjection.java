@@ -6,7 +6,7 @@ import com.sirioitalia.api.model.Role;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.Collection;
 
 public interface UserProjection {
     interface Short {
@@ -16,6 +16,7 @@ public interface UserProjection {
 
         String getLastName();
     }
+
 
     interface Full {
         Long getId();
@@ -38,6 +39,19 @@ public interface UserProjection {
 
         Role getRole();
 
-        Set<OrderProjection> getOrders();
+        Collection<OrderProjection.WithoutUserInfo> getOrders();
+    }
+
+    interface Authentication {
+        String getEmail();
+
+        String getPasswordHash();
+
+        String getPasswordSalt();
+
+
+        @JsonProperty("roleLabel")
+        @Value("#{target.getRole().getLabel()}")
+        String getRoleLabel();
     }
 }

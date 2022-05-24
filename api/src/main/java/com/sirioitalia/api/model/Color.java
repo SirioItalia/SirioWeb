@@ -1,6 +1,9 @@
 package com.sirioitalia.api.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,31 +16,23 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 @Table(name = "colors")
 public class Color implements Serializable {
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
     @NotBlank
     @NotEmpty
-    @Getter
-    @Setter
-    @Column(name = "label", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String label;
 
     @Pattern(message = "Color must be a valid hexadecimal format", regexp = "^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$")
-    @Getter
-    @Setter
     @NotBlank
     @NotEmpty
     @NotNull
-    @Column(name = "hexadecimalCode", nullable = false, unique = true)
+    @Column(name = "\"hexadecimalCode\"", nullable = false, unique = true)
     private String hexadecimalCode;
 }

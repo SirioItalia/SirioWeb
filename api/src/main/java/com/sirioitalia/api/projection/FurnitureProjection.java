@@ -3,6 +3,8 @@ package com.sirioitalia.api.projection;
 import com.sirioitalia.api.embeddable.Dimension;
 import com.sirioitalia.api.model.Category;
 
+import java.util.Collection;
+
 public interface FurnitureProjection {
     Long getId();
 
@@ -16,7 +18,5 @@ public interface FurnitureProjection {
 
     Double getWeight();
 
-    Double getPrice();
-
-    ItemProjection.Full getItems();
+    Collection<ItemProjection.Full> getItems();
 }

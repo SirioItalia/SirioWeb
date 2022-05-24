@@ -27,7 +27,7 @@ public class OrderService {
     }
 
 
-    public Iterable<OrderProjection> getOrders() {
+    public Iterable<OrderProjection.WithoutUserInfo> getOrders() {
         return orderRepository.findBy();
     }
 

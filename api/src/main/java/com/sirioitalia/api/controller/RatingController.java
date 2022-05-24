@@ -2,6 +2,7 @@ package com.sirioitalia.api.controller;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Rating;
+import com.sirioitalia.api.projection.RatingProjection;
 import com.sirioitalia.api.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,11 @@ public class RatingController {
     @Autowired
     public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
+    }
+
+    @GetMapping
+    public Iterable<RatingProjection.FromItem> getRatings() {
+        return ratingService.getRatings();
     }
 
     @PostMapping

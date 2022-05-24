@@ -16,4 +16,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query
     Optional<UserProjection.Full> findProjectionById(Long userId);
+
+    @Query
+    Optional<UserProjection.Authentication> findByEmail(String email);
 }

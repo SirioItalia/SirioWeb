@@ -3,13 +3,24 @@ package com.sirioitalia.api.projection;
 import java.util.Collection;
 
 public interface OrderProjection {
-    Long getId();
+    interface WithUserInfo {
+        Long getId();
 
-    String getOrderReference();
+        String getOrderReference();
 
-    UserProjection.Short getUser();
+        UserProjection.Short getUser();
 
-    Collection<OrderLineProjection> getOrderLines();
+        Collection<OrderLineProjection> getOrderLines();
+    }
+
+    interface WithoutUserInfo {
+        Long getId();
+
+        String getOrderReference();
+
+        Collection<OrderLineProjection> getOrderLines();
+    }
+
 }
 
 

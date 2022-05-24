@@ -1,8 +1,9 @@
 package com.sirioitalia.api.model;
 
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,33 +13,21 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Data
 @Entity
-@Cacheable
 @Table(name = "images")
 public class Image {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private long id;
 
     @NotBlank
     @NotEmpty
     @NotNull
-    @Getter
-    @Setter
-    @ToString.Exclude
-    @Basic(fetch = FetchType.LAZY)
-    @Column(nullable = false)
     private String name;
 
     @NotNull
-    @Getter
-    @Setter
     @ManyToOne(optional = false)
     @JoinColumn(name = "\"itemId\"", nullable = false, updatable = false)
-    @Fetch(FetchMode.SELECT)
     private Item item;
-
 }

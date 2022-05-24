@@ -2,7 +2,10 @@ package com.sirioitalia.api.service;
 
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Rating;
+import com.sirioitalia.api.projection.RatingProjection;
 import com.sirioitalia.api.repository.RatingRepository;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,13 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RatingService {
     private final RatingRepository ratingRepository;
+    ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 
     public RatingService(RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
     }
 
-    public Iterable<Rating> getRatings() {
-        return ratingRepository.findAll();
+    public Iterable<RatingProjection.FromItem> getRatings() {
+        return ratingRepository.findBy();
     }
 
     public Iterable<Rating> getRatingsByItemId(Long itemId) {

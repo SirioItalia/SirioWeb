@@ -1,6 +1,5 @@
 package com.sirioitalia.api.util;
 
-import com.sirioitalia.api.configuration.SecurityConfiguration;
 import com.sirioitalia.api.exception.CannotPerformOperationException;
 import com.sirioitalia.api.exception.InvalidHashException;
 
@@ -8,7 +7,6 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -38,14 +36,12 @@ public class PasswordHash {
     public static String createHash(char[] password)
             throws CannotPerformOperationException {
 
-        SecurityConfiguration securityConfiguration;
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[SALT_BYTE_SIZE];
         random.nextBytes(salt);
 
         // Hash the password
         byte[] hash = pbkdf2(password, salt);
-        int hashSize = hash.length;
 
         String parts = toBase64(hash) +
                 ":" +
@@ -88,19 +84,13 @@ public class PasswordHash {
             );
         }
 
-        byte[] pepper = PEPPER.getBytes(StandardCharsets.UTF_8);
-        ByteArrayOutputStream saltAndPepper = new ByteArrayOutputStream();
 
-        try {
-            saltAndPepper.write(salt);
-            saltAndPepper.write(pepper);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        byte[] testHash = pbkdf2(password, saltAndPepper.toByteArray());
+        byte[] testHash = pbkdf2(password, salt);
         // Compare the hashes in constant time. The password is correct if
         // both hashes match.
+        String strTestHash = toBase64(testHash);
+        String strHash = toBase64(hash);
+        String strSalt = toBase64(salt);
         return slowEquals(hash, testHash);
     }
 
@@ -111,16 +101,16 @@ public class PasswordHash {
         return diff == 0;
     }
 
-    private static byte[] pbkdf2(char[] password, byte[] salt)
+    public static byte[] pbkdf2(char[] password, byte[] salt)
             throws CannotPerformOperationException {
         try {
-            byte[] pepper = PEPPER.getBytes(StandardCharsets.UTF_8);
-
+            byte[] pepper = fromBase64(PEPPER);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             outputStream.write(salt);
             outputStream.write(pepper);
 
             byte[] saltAndPepper = outputStream.toByteArray();
+
 
             PBEKeySpec spec = new PBEKeySpec(password, saltAndPepper, PBKDF2_ITERATIONS, HASH_BYTE_SIZE * 8);
             SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);

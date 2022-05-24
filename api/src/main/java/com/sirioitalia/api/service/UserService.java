@@ -6,18 +6,27 @@ import com.sirioitalia.api.projection.UserProjection;
 import com.sirioitalia.api.repository.UserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 @Data
 @Service
-public class UserService {
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+public class UserService implements UserDetailsService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -47,7 +56,7 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(Long userId, User userDetails) throws ResourceException {
+    public UserProjection.Full updateUser(Long userId, User userDetails) throws ResourceException {
         try {
             User foundedUser = userRepository.findById(userId)
                     .orElseThrow(() -> new ResourceException(HttpStatus.NOT_FOUND.getReasonPhrase(), "User not found"));
@@ -98,7 +107,10 @@ public class UserService {
                     ? foundedUser.getPhoneNumber()
                     : userDetails.getPhoneNumber());
 
-            return userRepository.save(foundedUser);
+            User updatedUser = userRepository.save(foundedUser);
+
+
+            return projectionFactory.createProjection(UserProjection.Full.class, updatedUser);
         } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -131,4 +143,17 @@ public class UserService {
         return hashedPassword;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserProjection.Authentication foundedUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("No email founded for this user"));
+
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(foundedUser.getRoleLabel()));
+
+        String formattedPassword = String.format("%s:%s", foundedUser.getPasswordHash(), foundedUser.getPasswordSalt());
+
+        return new org.springframework.security.core.userdetails.User(foundedUser.getEmail(),
+                formattedPassword, authorities);
+    }
 }

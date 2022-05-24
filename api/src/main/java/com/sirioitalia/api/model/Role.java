@@ -1,6 +1,9 @@
 package com.sirioitalia.api.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -8,22 +11,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
 @Table(name = "roles")
 public class Role {
 
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false, nullable = false)
     private int id;
 
-    @Getter
-    @Setter
     @Column(nullable = false)
     private String label;
-
-    @Getter
-    @Setter
-    @Column(nullable = false)
-    private String name;
 }

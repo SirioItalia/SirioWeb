@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
     @Query
-    Iterable<OrderProjection> findBy();
+    Iterable<OrderProjection.WithoutUserInfo> findBy();
 
     @Query
     Optional<OrderProjection> findProjectionById(Long orderId);

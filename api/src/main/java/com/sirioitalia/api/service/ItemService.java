@@ -3,7 +3,6 @@ package com.sirioitalia.api.service;
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Image;
 import com.sirioitalia.api.model.Item;
-import com.sirioitalia.api.projection.FurnitureProjection;
 import com.sirioitalia.api.projection.ItemProjection;
 import com.sirioitalia.api.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.List;
 public class ItemService {
     private final ItemRepository itemRepository;
     private final ImageService imageService;
-    ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
+    private final ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 
     @Autowired
     public ItemService(ItemRepository itemRepository, ImageService imageService) {
@@ -40,20 +39,20 @@ public class ItemService {
     }
 
 
-    public ItemProjection createItem(Item item) throws ResourceException {
+    public ItemProjection.Full createItem(Item item) throws ResourceException {
         try {
             Item createdItem = itemRepository.save(item);
 
             if (item.getImages() != null) {
                 for (Image imageToAdd :
                         item.getImages()) {
-
                     imageToAdd.setItem(item);
                 }
                 imageService.createImages((List<Image>) item.getImages());
             }
 
-            return projectionFactory.createProjection(ItemProjection.class, createdItem);
+
+            return projectionFactory.createProjection(ItemProjection.Full.class, createdItem);
         } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

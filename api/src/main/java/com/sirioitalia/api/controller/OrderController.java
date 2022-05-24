@@ -22,7 +22,8 @@ public class OrderController {
     }
 
     @GetMapping
-    public Iterable<OrderProjection> getOrders() {
+    public Iterable<OrderProjection.WithoutUserInfo> getOrders() {
+        Iterable<OrderProjection.WithoutUserInfo> orders = orderService.getOrders();
         return orderService.getOrders();
     }
 
