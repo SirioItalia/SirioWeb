@@ -11,6 +11,31 @@ services:
       - '5000:5432'
     volumes:
       - db:/var/lib/postgresql/data
+    networks:
+      - spring-cloud-network
+  api-sirio-jpa:
+    build:
+      context: api-server
+      dockerfile: Dockerfile
+    image: springio/sirio-api-jpa-0.1.0:latest
+    depends_on:
+      - db-sirio-pg
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-sirio-pg:5432/sirioitalia
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - '8000:8080'
+    networks:
+      - spring-cloud-network
+    volumes:
+      - app:/usr/src/app/data
 volumes:
   db:
     driver: local
+  app:
+    driver: local
+networks:
+  spring-cloud-network:
+    driver: bridge

@@ -9,12 +9,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sirioitalia</groupId>
-    <artifactId>api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>sirio-api-jpa</artifactId>
+    <version>0.1.0</version>
     <name>api</name>
     <description>Site e-commerce du groupe Sirioitalia</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17.0.2</java.version>
     </properties>
     <dependencies>
         <dependency>

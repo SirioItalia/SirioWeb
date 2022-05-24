@@ -39,7 +39,7 @@ public class ItemService {
     }
 
 
-    public ItemProjection.Full createItem(Item item) throws ResourceException {
+    public ItemProjection.Short createItem(Item item) throws ResourceException {
         try {
             Item createdItem = itemRepository.save(item);
 
@@ -52,7 +52,7 @@ public class ItemService {
             }
 
 
-            return projectionFactory.createProjection(ItemProjection.Full.class, createdItem);
+            return projectionFactory.createProjection(ItemProjection.Short.class, createdItem);
         } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
