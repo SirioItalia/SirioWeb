@@ -3,6 +3,7 @@ package com.sirioitalia.api.controller;
 import com.sirioitalia.api.exception.ResourceException;
 import com.sirioitalia.api.model.Cart;
 import com.sirioitalia.api.projection.CartProjection;
+import com.sirioitalia.api.projection.ItemProjection;
 import com.sirioitalia.api.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,11 @@ public class CartController {
 
     public CartController(CartService cartService) {
         this.cartService = cartService;
+    }
+
+    @GetMapping
+    public Iterable<CartProjection.Full> getCarts() {
+        return cartService.getCarts();
     }
 
     @PostMapping

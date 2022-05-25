@@ -33,6 +33,6 @@ public class Color implements Serializable {
     @NotBlank
     @NotEmpty
     @NotNull
-    @Column(name = "\"hexadecimalCode\"", nullable = false, unique = true)
+    @Column(name = "\"hexadecimalcode\"", nullable = false, unique = true)
     private String hexadecimalCode;
 }

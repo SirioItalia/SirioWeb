@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface CartRepository extends CrudRepository<Cart, Long> {
 
+    Iterable<CartProjection.Full> findBy();
+
     @Query
     Iterable<CartProjection> findCartsProjectionByUserId(Long userId);
 

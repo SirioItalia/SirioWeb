@@ -16,6 +16,10 @@ public class CartService {
     private final CartRepository cartRepository;
     ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 
+    public Iterable<CartProjection.Full> getCarts() {
+        return cartRepository.findBy();
+    }
+
     @Autowired
     public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
