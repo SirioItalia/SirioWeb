@@ -43,10 +43,6 @@ public class Furniture implements Serializable {
     @JoinColumn(name = "\"categoryId\"", nullable = false)
     private Category category;
 
-    @Positive
-    @Column
-    private double price;
-
     @NotNull
     @Embedded
     private Dimension dimension;

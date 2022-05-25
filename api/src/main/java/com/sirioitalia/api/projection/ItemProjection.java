@@ -38,6 +38,8 @@ public interface ItemProjection {
         Collection<RatingProjection.FromItem> getRatings();
 
         ColorProjection getColor();
+
+        Double getPrice();
     }
 
 }

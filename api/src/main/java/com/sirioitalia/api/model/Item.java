@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +34,10 @@ public class Item {
     @Column(name = "stock", nullable = false)
     private int stock;
 
+    @Positive
+    @Column
+    private double price;
+
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Collection<Image> images = new ArrayList<>();
 
@@ -40,6 +45,7 @@ public class Item {
     @ManyToOne(optional = false)
     @JoinColumn(name = "\"furnitureId\"", nullable = false)
     private Furniture furniture;
+
 
     @NotNull
     @ManyToOne(optional = false)

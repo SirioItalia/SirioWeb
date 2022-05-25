@@ -69,10 +69,6 @@ public class FurnitureService {
                 ? furnitureToUpdate.getDescription()
                 : furnitureDetails.getDescription());
 
-        furnitureToUpdate.setPrice(Double.valueOf(furnitureDetails.getPrice()).equals(0.0)
-                ? furnitureToUpdate.getPrice()
-                : furnitureDetails.getPrice());
-
         furnitureToUpdate.setWeight(Double.valueOf(furnitureDetails.getWeight()).equals(0.0)
                 ? furnitureToUpdate.getWeight()
                 : furnitureDetails.getWeight());
