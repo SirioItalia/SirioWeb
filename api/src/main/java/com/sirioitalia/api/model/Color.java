@@ -23,6 +23,7 @@ public class Color implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @NotNull
     @NotBlank
     @NotEmpty
@@ -33,6 +34,6 @@ public class Color implements Serializable {
     @NotBlank
     @NotEmpty
     @NotNull
-    @Column(name = "\"hexadecimalcode\"", nullable = false, unique = true)
+    @Column(name = "\"hexadecimalCode\"", nullable = false, unique = true)
     private String hexadecimalCode;
 }

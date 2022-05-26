@@ -1,5 +1,6 @@
 package com.sirioitalia.api.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sirioitalia.api.embeddable.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -25,7 +25,8 @@ import java.util.Collection;
 @NoArgsConstructor
 @Data
 @Table(name = "users")
-public class User implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

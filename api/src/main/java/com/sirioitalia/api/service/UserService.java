@@ -61,6 +61,7 @@ public class UserService implements UserDetailsService {
             User foundedUser = userRepository.findById(userId)
                     .orElseThrow(() -> new ResourceException(HttpStatus.NOT_FOUND.getReasonPhrase(), "User not found"));
 
+
             foundedUser.setEmail(userDetails.getEmail() == null
                     ? foundedUser.getEmail()
                     : userDetails.getEmail());

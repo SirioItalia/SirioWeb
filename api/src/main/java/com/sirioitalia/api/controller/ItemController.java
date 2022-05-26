@@ -46,8 +46,8 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Item> updateItem(@RequestBody Item itemDetails, @PathVariable Long id) throws ResourceException {
-        Item updatedItem = itemService.updateItem(id, itemDetails);
+    public ResponseEntity<ItemProjection.Full> updateItem(@RequestBody Item itemDetails, @PathVariable Long id) throws ResourceException {
+        ItemProjection.Full updatedItem = itemService.updateItem(id, itemDetails);
 
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }

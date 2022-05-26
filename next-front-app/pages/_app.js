@@ -8,7 +8,7 @@ const App = ({ Component, pageProps, ...otherProps }) => {
   return (
     <AppContextProvider>
       <Head>
-        <title>Groundblog</title>
+        <title>Sirioitalia</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Navbar />

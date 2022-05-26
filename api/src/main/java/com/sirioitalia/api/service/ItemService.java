@@ -61,14 +61,22 @@ public class ItemService {
 
 
     @Transactional
-    public Item updateItem(Long itemId, Item item) throws ResourceException {
+    public ItemProjection.Full updateItem(Long itemId, Item itemDetails) throws ResourceException {
         try {
 
             Item itemToUpdate = itemRepository.findById(itemId)
                     .orElseThrow(() -> new ResourceException("404", "Item Not Found"));
 
+            itemToUpdate.setPrice(Double.valueOf(itemDetails.getPrice()).equals(0.0)
+                    ? itemToUpdate.getPrice()
+                    : itemDetails.getPrice());
 
-            return itemRepository.save(itemToUpdate);
+            itemToUpdate.setStock(Double.valueOf(itemDetails.getStock()).equals(0.0)
+                    ? itemToUpdate.getStock()
+                    : itemDetails.getStock());
+
+
+            return projectionFactory.createProjection(ItemProjection.Full.class, itemRepository.save(itemToUpdate));
 
         } catch (Exception e) {
             throw new ResourceException(e.getMessage(), e.getMessage());

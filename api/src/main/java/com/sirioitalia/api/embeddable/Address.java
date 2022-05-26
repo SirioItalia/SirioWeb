@@ -1,7 +1,8 @@
 package com.sirioitalia.api.embeddable;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,28 +12,25 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Address {
     @NotNull
     @NotBlank
     @NotEmpty
-    @Getter
-    @Setter
     @Column(name = "\"streetName\"")
     private String streetName;
 
     @NotNull
     @NotEmpty
     @NotBlank
-    @Getter
-    @Setter
     @Column(name = "\"streetType\"")
     private String streetType;
 
     @NotNull
     @NotBlank
     @NotEmpty
-    @Getter
-    @Setter
     @Column(name = "\"streetNumber\"", nullable = false)
     private String streetNumber;
 
@@ -40,13 +38,9 @@ public class Address {
     @NotNull
     @NotBlank(message = "City field cannot be blank")
     @NotEmpty(message = "City field cannot be empty")
-    @Getter
-    @Setter
     private String city;
 
     @Pattern(regexp = "/^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/")
-    @Getter
-    @Setter
     @Column(name = "\"zipCode\"")
     private String zipCode;
 }
