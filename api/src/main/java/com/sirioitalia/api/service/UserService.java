@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-@Data
+
 @Service
+@Data
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,6 +38,13 @@ public class UserService implements UserDetailsService {
 
     public UserProjection.Full getUserById(Long itemId) throws ResourceException {
         UserProjection.Full user = userRepository.findProjectionById(itemId)
+                .orElseThrow(() -> new ResourceException("FindUserFailed", HttpStatus.NOT_FOUND.getReasonPhrase(), HttpStatus.NOT_FOUND));
+
+        return user;
+    }
+
+    public UserProjection.Authentication getUserByEmail(String email) throws ResourceException {
+        UserProjection.Authentication user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceException("FindUserFailed", HttpStatus.NOT_FOUND.getReasonPhrase(), HttpStatus.NOT_FOUND));
 
         return user;

@@ -8,14 +8,13 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=sirioitalia
     ports:
-      - '5000:5000'
+      - '5000:5432'
     volumes:
       - db:/var/lib/postgresql/data
     networks:
       - spring-cloud-network
   api-sirio-jpa:
     build:
-      context: api-server
       dockerfile: Dockerfile
     image: springio/sirio-api-jpa-0.1.0:latest
     depends_on:

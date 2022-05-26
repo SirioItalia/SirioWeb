@@ -40,9 +40,12 @@ public interface UserProjection {
         Role getRole();
 
         Collection<OrderProjection.WithoutUserInfo> getOrders();
+
     }
 
     interface Authentication {
+        String getId();
+
         String getEmail();
 
         String getPasswordHash();

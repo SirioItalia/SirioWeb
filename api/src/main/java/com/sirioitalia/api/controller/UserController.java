@@ -47,7 +47,7 @@ public class UserController {
         UserProjection.Full foundedUser = userService.getUserById(id);
 
 
-        return new ResponseEntity<>(foundedUser, HttpStatus.FOUND);
+        return new ResponseEntity<>(foundedUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
