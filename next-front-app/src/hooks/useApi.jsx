@@ -11,7 +11,6 @@ const useApi = (method, route, args = {}) => {
     ;(async () => {
       try {
         const { data } = await makeClient({
-          headers: { authentication: jwt },
           session: { sessionUserId: sessionUserId },
         })[method](route, args)
 

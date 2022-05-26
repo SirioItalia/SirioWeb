@@ -7,7 +7,7 @@ const NavbarField = (props) => {
     <Link href={href}>
       <div
         className={classnames(
-          "lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold hover:text-white hover:cursor-pointer",
+          "lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold hover:cursor-pointer",
           className
         )}
       >

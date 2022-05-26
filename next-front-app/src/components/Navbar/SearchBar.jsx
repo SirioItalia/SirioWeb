@@ -11,8 +11,8 @@ const SearchBar = () => {
   }
 
   return (
-    <div className="items-center px-4 flex bg-white justify-center">
-      <div className="relative mr-3 w-full">
+    <div className="items-center px-4 flex justify-center">
+      <div className="relative mr-3">
         <div className="absolute top-3 left-3 items-center" ref={clickPoint}>
           <svg
             className="w-5 h-5 text-gray-500"
@@ -29,8 +29,8 @@ const SearchBar = () => {
         </div>
         <input
           type="text"
-          className="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:pl-3"
-          placeholder="Search Here..."
+          className="block p-2 pl-10 w-70 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:pl-3"
+          placeholder="Search furnitures..."
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
@@ -38,4 +38,5 @@ const SearchBar = () => {
     </div>
   )
 }
+
 export default SearchBar

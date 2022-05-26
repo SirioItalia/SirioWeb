@@ -6,7 +6,6 @@ import FormField from "@components/Form/FormField.jsx"
 import { makeClient } from "@services/makeClient.js"
 import { AppContext } from "@components/Context/AppContext"
 import RemoveUserModal from "./RemoveUserModal"
-import FormField from "@components/Form/FormField.jsx"
 
 const initialValues = {
   email: "",

@@ -7,6 +7,7 @@ import { makeClient } from "@services/makeClient.js"
 import { AppContext } from "@components/Context/AppContext"
 import Link from "next/link"
 import Router from "next/router"
+import qs from "qs"
 
 const initialValues = {
   email: "",
@@ -35,12 +36,24 @@ const SignInForm = () => {
     setError(null)
 
     try {
-      const { data } = await makeClient().post("/sign-in", { email, password })
+      const { data } = await makeClient({
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      }).post(
+        "/auth/login",
+        qs.stringify({
+          email,
+          password,
+        })
+      )
+
+      console.log(data)
 
       if (!data.jwt) {
         throw new Error("Jwt is missing")
       }
+
       login(data)
+
       Router.push({
         pathname: "/",
         query: { messageInfo: "You have successfully logged in" },
@@ -85,7 +98,7 @@ const SignInForm = () => {
             placeholder="Enter your password"
           />
           <Button
-            className="bg-blue-600 hover:bg-blue-700 active:bg-blue-500"
+            className="bg-blue-600 hover:bg-blue-700 active:bg-blue-500 rounded mt-2"
             type="submit"
             disabled={!isValid || isSubmitting}
           >
