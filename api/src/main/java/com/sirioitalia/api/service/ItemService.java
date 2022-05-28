@@ -42,15 +42,21 @@ public class ItemService {
     public ItemProjection.Short createItem(Item item) throws ResourceException {
         try {
             Item createdItem = itemRepository.save(item);
-
+            createdItem.setReference(createdItem.getReference() + createdItem.getId().toString());
             if (item.getImages() != null) {
+
                 for (Image imageToAdd :
                         item.getImages()) {
                     imageToAdd.setItem(item);
+                    Image addedImage = imageService.createImage(imageToAdd);
+
+                    String name = String.format("%s_%s", createdItem.getReference(), addedImage.getId().toString());
+                    addedImage.setName(name);
+                    imageService.createImage(addedImage);
                 }
-                imageService.createImages((List<Image>) item.getImages());
             }
 
+            itemRepository.save(createdItem);
 
             return projectionFactory.createProjection(ItemProjection.Short.class, createdItem);
         } catch (Exception e) {

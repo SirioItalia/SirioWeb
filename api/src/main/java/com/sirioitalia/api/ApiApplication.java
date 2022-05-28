@@ -42,14 +42,14 @@ public class ApiApplication {
                     null, LocalDate.of(1990, 01, 01),
                     "0603861010",
                     new Address("Victor Hugo", "Avenue", "93", "Paris", "75016"),
-                    null, roleService.getRoleById(Integer.toUnsignedLong(1)), null));
+                    null, roleService.getRoleById(Integer.toUnsignedLong(1)), null, null));
 
             userService.createUser(new User(null, "Cahir", "Aep Dahy",
                     "cahir@gmail.com", "Azerty93",
                     null, LocalDate.of(1990, 01, 01),
                     "0634541510",
                     new Address("Victor Hugo", "Avenue", "93", "Paris", "75016"),
-                    null, roleService.getRoleById(Integer.toUnsignedLong(1)), null));
+                    null, roleService.getRoleById(Integer.toUnsignedLong(1)), null, null));
 
 
             colorService.createColor(new Color(null, "Salmon", "#FA8072"));

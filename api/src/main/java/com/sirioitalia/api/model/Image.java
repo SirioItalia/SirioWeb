@@ -19,11 +19,9 @@ import javax.validation.constraints.NotNull;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @NotBlank
-    @NotEmpty
-    @NotNull
+
     private String name;
 
     @NotNull

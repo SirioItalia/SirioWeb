@@ -6,6 +6,7 @@ import com.sirioitalia.api.model.Role;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface UserProjection {
@@ -33,6 +34,8 @@ public interface UserProjection {
 
         LocalDate getBirthDate();
 
+        LocalDateTime getRegistrationDate();
+
         String getPhoneNumber();
 
         Address getAddress();
@@ -41,6 +44,7 @@ public interface UserProjection {
 
         Collection<OrderProjection.WithoutUserInfo> getOrders();
 
+        Collection<RatingProjection.FromUser> getRatings();
     }
 
     interface Authentication {
