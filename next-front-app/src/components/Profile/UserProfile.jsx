@@ -7,7 +7,6 @@ import UserActivity from "./UserActivity"
 
 const UserProfile = (props) => {
   const { userState } = props
-
   const { sessionUserId } = useContext(AppContext)
 
   const isOwnerProfile = () => {
@@ -23,9 +22,7 @@ const UserProfile = (props) => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto flex flex-wrap py-6">
-        <UserActivity {...props} userId={userState.id} />
-      </div>
+      <UserActivity {...props} userId={userState.id} />
     </div>
   )
 }

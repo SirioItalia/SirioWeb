@@ -13,6 +13,17 @@ const UserInfo = (props) => {
   const [showRemoveUser, setShowRemoveUser] = useState(false)
   const [showBanUser, setShowBanUser] = useState(false)
 
+  const formattedDate = (date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      minute: "numeric",
+      hour: "numeric",
+      second: "numeric",
+    })
+  }
+
   const isOwnerProfile = () => {
     return Number(userState.id) === Number(sessionUserId)
   }
@@ -20,13 +31,18 @@ const UserInfo = (props) => {
   return (
     <div>
       <div className="text-center">
-        <Image src="/profil.png" width="100" height="100" />
+        <Image
+          src="/images/users/profil.png"
+          className="rounded-full"
+          width="100"
+          height="100"
+        />
       </div>
       <h5 className="mb-2 text-center">
-        {`${userState.displayName} ${
+        {`${userState.fullName} ${
           isOwnerProfile() ? `(${userState.email})` : ""
         }`}
-        {!isOwnerProfile() && sessionRightUser === "admin" ? (
+        {!isOwnerProfile() && sessionRightUser === "ROLE_ADMIN" ? (
           <div>
             <Button
               title="Remove user"
@@ -45,10 +61,8 @@ const UserInfo = (props) => {
           </div>
         ) : null}
       </h5>
-      <div className="text-center mb-2">
-        <span className="bg-sky-400 p-1 px-4 rounded text-white">
-          {userState.right}
-        </span>
+      <div className="text-center mb-2 bg-sky-400 p-1 px-4 rounded text-white">
+        {`Registered since ${formattedDate(userState.registrationDate)}`}
       </div>
       {showRemoveUser ? (
         <RemoveUserModal {...props} toggleModal={setShowRemoveUser} />

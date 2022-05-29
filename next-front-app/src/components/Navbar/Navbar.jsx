@@ -5,9 +5,12 @@ import { AppContext } from "@components/Context/AppContext.jsx"
 import { MdAdminPanelSettings } from "react-icons/md"
 import SearchBar from "./SearchBar.jsx"
 import { AiOutlineShoppingCart } from "react-icons/ai"
+import useApi from "src/hooks/useApi.jsx"
+import { v4 as uuidv4 } from "uuid"
 
 const Navbar = () => {
   const { sessionUserId, sessionRightUser } = useContext(AppContext)
+  const [err, data] = useApi("get", "/categories")
 
   return typeof window === "undefined" ? null : (
     <nav className="flex items-center flex-wrap bg-white p-3 shadow-lg">
@@ -17,11 +20,20 @@ const Navbar = () => {
         </div>
       </NavbarField>
       <SearchBar />
+      {Object.values(data).map((category) => (
+        <NavbarField key={uuidv4()} href={`/`} className="text-black">
+          {category.label}
+        </NavbarField>
+      ))}
       <div className="w-full lg:inline-flex lg:flex-grow lg:w-auto">
         <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-center  flex flex-col lg:h-auto">
-          {sessionRightUser && sessionRightUser === "admin" ? (
-            <NavbarField href="/admin/panel">
-              <MdAdminPanelSettings title="Admin panel" size={16} />
+          {sessionRightUser === "ROLE_ADMIN" ? (
+            <NavbarField href="/admin/panel" className="text-black">
+              <MdAdminPanelSettings
+                title="Admin panel"
+                size={24}
+                className="text-blue-500 hover:text-blue-600 active:text-blue-700"
+              />
             </NavbarField>
           ) : null}
           <NavbarField

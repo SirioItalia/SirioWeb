@@ -1,7 +1,7 @@
 import Comment from "./Comment"
 import { v4 as uuidv4 } from "uuid"
 
-const CommentSet = (props) => {
+const RatingSet = (props) => {
   const { commentState, setCommentState } = props
   return (
     <div className="container mx-1/2 flex flex-wrap">
@@ -11,4 +11,4 @@ const CommentSet = (props) => {
     </div>
   )
 }
-export default CommentSet
+export default RatingSet

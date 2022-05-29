@@ -1,7 +1,7 @@
 import useApi from "src/hooks/useApi"
-import CommentSet from "@components/Comments/CommentSet"
 import { useState, useEffect } from "react"
 import SetPosts from "@components/Posts/PostSet"
+import RatingSet from "@components/Comments/CommentSet"
 
 const UserActivity = (props) => {
   const { userId } = props
@@ -21,45 +21,45 @@ const UserActivity = (props) => {
     setStatePosts(dataPosts)
   }, [dataPosts])
   return (
-    <>
-      <div className="w-full md:w-2/3 flex flex-col items-center px-3">
-        <h2 className="text-2xl font-normal leading-normal mt-0 mb-2 text-pink-800">
-          Latest posts
+    <div className="container mx-auto flex flex-wrap py-6">
+      <div className="w-full md:w-2/3 flex flex-col items-center px-3 shadow-xl border-double border-4 border-sky-500 w-auto">
+        <h2 className="text-2xl font-normal leading-normal mb-2 text-pink-800">
+          Latest orders
         </h2>
         {!statePosts.length ? (
           <div className="flex justify-center">
-            <p className="bg-stone-400 text-white text-center font-bold px-4 py-2 mt-5 w-1/2">
-              This user has no posts yet
+            <p className="bg-stone-400 text-white text-center font-bold px-4 py-2 w-auto mt-10">
+              No orders yet
             </p>
           </div>
         ) : (
           <SetPosts {...props} />
         )}
       </div>
-      <aside className="w-full md:w-1/3 flex flex-col items-center px-3">
-        <h2 className="text-2xl font-normal leading-normal mt-0 mb-2 text-pink-800">
-          Latest comments
+      <aside className="w-full md:w-1/3 flex flex-col items-center px-3 shadow-xl border-double border-4 border-sky-500 w-auto">
+        <h2 className="text-2xl font-normal leading-normal mb-2 text-pink-800 ">
+          Latest ratings
         </h2>
         <div
           className={`w-full ${
             !stateComments.length ? "" : "bg-white"
-          } shadow flex flex-col my-4 p-6`}
+          }  flex flex-col my-4 p-6`}
         >
-          {!stateComments.length ? (
+          {!stateComments || !stateComments.length ? (
             <div className="flex justify-center">
-              <p className="bg-stone-400 text-white text-center font-bold px-4 py-2 mt-5 w-1/2">
-                This user has no comments yet
+              <p className="bg-stone-400 text-white text-center font-bold px-4 py-2 w-auto">
+                No rating yet
               </p>
             </div>
           ) : (
-            <CommentSet
+            <RatingSet
               commentState={stateComments.slice(0, 5)}
               setCommentState={setStateComments}
             />
           )}
         </div>
       </aside>
-    </>
+    </div>
   )
 }
 export default UserActivity

@@ -41,16 +41,6 @@ const UserActions = (props) => {
             </span>
           </li>
         )}
-        {isOwnerProfile() && userState.right === "reader" ? (
-          <li
-            className="w-full px-4 py-2 border-b border-sky-200 dark:border-gray-600 hover:text-gray-500 hover:cursor-pointer"
-            onClick={() => {
-              setShowModalAuthorApplication(true)
-            }}
-          >
-            Want to be an author ?
-          </li>
-        ) : null}
         {!isOwnerProfile() ? null : (
           <li className="w-full px-4 py-2 rounded-b-lg flex justify-around">
             <span

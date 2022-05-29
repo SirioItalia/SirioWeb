@@ -46,8 +46,6 @@ const SignInForm = () => {
         })
       )
 
-      console.log(data)
-
       if (!data.jwt) {
         throw new Error("Jwt is missing")
       }

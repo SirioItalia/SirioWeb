@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react"
 import UserProfile from "@components/Profile/UserProfile"
-import { makeClient } from "@services/makeClient"
 import { AppContext } from "@components/Context/AppContext"
 import useApi from "src/hooks/useApi"
 
@@ -12,6 +11,7 @@ const ProfilPage = () => {
   useEffect(() => {
     setState(data)
   }, [data])
+  console.log(data)
 
   return <UserProfile userState={state} setUserState={setState} />
 }

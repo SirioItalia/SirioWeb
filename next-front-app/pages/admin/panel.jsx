@@ -1,6 +1,12 @@
 import AdminPanel from "@components/Admin/AdminPanel"
+import Dashboard from "@components/Admin/Dashboard"
 
 const AdminPanelPage = ({ applications }) => {
-  return <AdminPanel />
+  return (
+    <>
+      <Dashboard />
+      <AdminPanel />
+    </>
+  )
 }
 export default AdminPanelPage
