@@ -46,7 +46,7 @@ public class FurnitureService {
             for (Item itemToAdd :
                     furnitureDetails.getItems()) {
                 itemToAdd.setFurniture(addedFurniture);
-                String reference = String.format("%s%s%s", addedFurniture.getId().toString(), addedFurniture.getCategory().getId().toString());
+                String reference = String.format("%s%s", addedFurniture.getId().toString(), addedFurniture.getCategory().getId().toString());
                 itemToAdd.setReference(reference);
                 itemService.createItem(itemToAdd);
             }

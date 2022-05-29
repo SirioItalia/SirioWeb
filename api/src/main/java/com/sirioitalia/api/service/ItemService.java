@@ -5,6 +5,7 @@ import com.sirioitalia.api.model.Image;
 import com.sirioitalia.api.model.Item;
 import com.sirioitalia.api.projection.ItemProjection;
 import com.sirioitalia.api.repository.ItemRepository;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
@@ -42,7 +43,13 @@ public class ItemService {
     public ItemProjection.Short createItem(Item item) throws ResourceException {
         try {
             Item createdItem = itemRepository.save(item);
-            createdItem.setReference(createdItem.getReference() + createdItem.getId().toString());
+            String reference = createdItem.getReference() + createdItem.getId().toString() + Integer.toString(RandomUtils.nextInt(1000, 9999));
+            System.out.println("reference:" + reference);
+            System.out.println("idItem:" + createdItem.getId().toString());
+            createdItem.setReference(reference);
+
+            itemRepository.save(createdItem);
+
             if (item.getImages() != null) {
 
                 for (Image imageToAdd :
@@ -55,8 +62,6 @@ public class ItemService {
                     imageService.createImage(addedImage);
                 }
             }
-
-            itemRepository.save(createdItem);
 
             return projectionFactory.createProjection(ItemProjection.Short.class, createdItem);
         } catch (Exception e) {
