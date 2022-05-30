@@ -15,5 +15,15 @@ public interface RatingProjection {
 
         LocalDateTime getPostedAt();
     }
+
+    interface FromUser {
+        Integer getRating();
+
+        String getComment();
+
+        LocalDateTime getPostedAt();
+
+        ItemProjection.Short getItem();
+    }
 }
 

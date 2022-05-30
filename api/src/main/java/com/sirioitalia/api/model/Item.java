@@ -25,7 +25,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, updatable = false)
+    @Column
     @NotEmpty
     @NotNull
     private String reference;

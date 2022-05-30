@@ -1,17 +1,20 @@
 package com.sirioitalia.api.security;
 
 import com.sirioitalia.api.security.filter.CustomAuthenticationFilter;
+import com.sirioitalia.api.security.filter.CustomCorsFilter;
+import com.sirioitalia.api.service.UserService;
 import com.sirioitalia.api.util.PBKDF2PasswordEncoder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,6 +29,7 @@ import java.util.Arrays;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final PBKDF2PasswordEncoder pbkdf2PasswordEncoder;
+    private final UserService userService;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,15 +39,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), userService);
         customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
         customAuthenticationFilter.setUsernameParameter("email");
         customAuthenticationFilter.setPasswordParameter("password");
 
         http
-                .cors().disable()
+                .cors().and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anonymous().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         http.addFilter(customAuthenticationFilter);
     }
 
@@ -54,12 +60,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type, Access-Control-Allow-Origin, " +
                 "Access-Control-Allow-Headers, Authorization, X-Requested-With, requestId, Correlation-Id"));
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/*", configuration);
 
         return source;
+    }
+
+    @Bean
+    public FilterRegistrationBean<CustomCorsFilter> filterRegistrationBean() {
+        FilterRegistrationBean<CustomCorsFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CustomCorsFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
     }
 
     @Bean

@@ -29,7 +29,7 @@ public interface ItemProjection {
         String getCategory();
 
         Double getPrice();
-
+        String getReference();
     }
 
     interface Full {
@@ -42,6 +42,8 @@ public interface ItemProjection {
         ColorProjection getColor();
 
         Double getPrice();
+
+        String getReference();
     }
 
 }

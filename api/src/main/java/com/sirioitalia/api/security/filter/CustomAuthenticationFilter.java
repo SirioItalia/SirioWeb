@@ -3,6 +3,9 @@ package com.sirioitalia.api.security.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sirioitalia.api.projection.UserProjection;
+import com.sirioitalia.api.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,9 +29,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    @Autowired
+    private final UserService userService;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @Override
@@ -67,9 +73,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algorithm);
 
         Map<String, String> tokens = new HashMap<>();
+        UserProjection.Authentication userDetailsProjection = userService.getUserByEmail(user.getUsername());
 
         tokens.put("jwt", accessToken);
         tokens.put("jwt_refresh", refreshToken);
+        tokens.put("userRight", userDetailsProjection.getRoleLabel());
+        tokens.put("sessionUserId", userDetailsProjection.getId());
 
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
