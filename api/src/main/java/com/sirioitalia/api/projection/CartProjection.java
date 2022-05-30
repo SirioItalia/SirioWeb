@@ -10,6 +10,8 @@ public interface CartProjection {
     interface Full {
         CartPK getCartPK();
 
+        Integer getQuantity();
+
         ItemProjection.Short getItem();
 
         UserProjection.Short getUser();

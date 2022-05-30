@@ -28,6 +28,8 @@ public interface ItemProjection {
         @Value("#{target.getFurniture().getCategory().getLabel()}")
         String getCategory();
 
+        Double getPrice();
+
     }
 
     interface Full {
